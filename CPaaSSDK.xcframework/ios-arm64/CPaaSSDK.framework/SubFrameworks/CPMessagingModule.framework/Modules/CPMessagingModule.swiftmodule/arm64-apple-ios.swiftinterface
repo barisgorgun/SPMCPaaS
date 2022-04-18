@@ -1,5 +1,5 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.5.2 (swiftlang-1300.0.47.5 clang-1300.0.29.30)
+// swift-compiler-version: Apple Swift version 5.3 (swiftlang-1200.0.29.2 clang-1200.0.30.1)
 // swift-module-flags: -target arm64-apple-ios11.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name CPMessagingModule
 import CPUtilities
 import Foundation
@@ -8,8 +8,7 @@ import NotificationEngine
 import CPUtilities.Private
 import RestManager
 import Swift
-import _Concurrency
-public typealias ComposingCompletionBlock = (_ error: CPUtilities.CPError?, _ isComposingMessage: CPMessagingModule.CPIsComposingMessage?) -> ()
+public typealias ComposingCompletionBlock = (CPUtilities.CPError?, CPMessagingModule.CPIsComposingMessage?) -> ()
 @_hasMissingDesignatedInitializers @objc public class CPChatConversation : CPMessagingModule.CPConversation {
   @objc override public var url: Swift.String {
     @objc get
@@ -63,10 +62,11 @@ public typealias ComposingCompletionBlock = (_ error: CPUtilities.CPError?, _ is
   }
   @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
   @objc deinit
+  @objc override dynamic public init()
 }
-public typealias CreateChatGroupBlock = (_ error: CPUtilities.CPError?, _ group: CPMessagingModule.CPChatGroup?) -> ()
-public typealias FetchAllChatGroupsBlock = (_ error: CPUtilities.CPError?, _ group: [CPMessagingModule.CPChatGroup]?) -> ()
-public typealias FetchChatGroupBlock = (_ error: CPUtilities.CPError?, _ group: CPMessagingModule.CPChatGroup?) -> ()
+public typealias CreateChatGroupBlock = (CPUtilities.CPError?, CPMessagingModule.CPChatGroup?) -> ()
+public typealias FetchAllChatGroupsBlock = (CPUtilities.CPError?, [CPMessagingModule.CPChatGroup]?) -> ()
+public typealias FetchChatGroupBlock = (CPUtilities.CPError?, CPMessagingModule.CPChatGroup?) -> ()
 @_hasMissingDesignatedInitializers @objc public class CPChatGroup : ObjectiveC.NSObject {
   @objc public var groupID: Swift.String? {
     get
@@ -88,6 +88,7 @@ public typealias FetchChatGroupBlock = (_ error: CPUtilities.CPError?, _ group: 
   @objc public func decline(completion: @escaping CPUtilities.ErrorCompletionBlock)
   @objc public func leave(completion: @escaping CPUtilities.ErrorCompletionBlock)
   @objc public func updateWith(participant: CPMessagingModule.CPChatGroupParticipant)
+  @objc override dynamic public init()
   @objc deinit
 }
 @_hasMissingDesignatedInitializers @objc public class CPChatGroupInvitation : ObjectiveC.NSObject {
@@ -95,15 +96,16 @@ public typealias FetchChatGroupBlock = (_ error: CPUtilities.CPError?, _ group: 
   @objc public func accept(completion: @escaping CPUtilities.ErrorCompletionBlock)
   @objc public func decline(completion: @escaping CPUtilities.ErrorCompletionBlock)
   @objc deinit
+  @objc override dynamic public init()
 }
-public typealias FetchBlock = (_ error: CPUtilities.CPError?, _ fetchResult: CPMessagingModule.FetchResult?) -> ()
+public typealias FetchBlock = (CPUtilities.CPError?, CPMessagingModule.FetchResult?) -> ()
 @_inheritsConvenienceInitializers @objc public class FetchOptions : ObjectiveC.NSObject {
   @objc public var max: Swift.Int
   @objc public var next: Swift.String
   @objc public var lastMessageTime: Swift.CLongLong
   public var isNew: Swift.Bool?
-  @objc override dynamic public init()
   @objc deinit
+  @objc override dynamic public init()
 }
 @_inheritsConvenienceInitializers @objc public class FetchCriteria : ObjectiveC.NSObject {
   @objc public var localAddress: Swift.String?
@@ -134,6 +136,7 @@ public typealias FetchBlock = (_ error: CPUtilities.CPError?, _ fetchResult: CPM
   @objc public func delete(conversation: CPMessagingModule.CPConversation, completion: @escaping CPUtilities.DeleteCompletionBlock)
   @objc public func createMessage(withText: Swift.String) -> CPMessagingModule.CPOutboundMessage
   @objc deinit
+  @objc override dynamic public init()
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class CPIsComposingMessage : ObjectiveC.NSObject {
   @objc public var sender: Swift.String {
@@ -160,11 +163,12 @@ public typealias FetchBlock = (_ error: CPUtilities.CPError?, _ fetchResult: CPM
   }
   @objc deinit
 }
-public typealias UploadCompletionBlock = (_ error: CPUtilities.CPError?, _ filePart: CPMessagingModule.CPFilePart?) -> ()
-public typealias DownloadCompletionBlock = (_ error: CPUtilities.CPError?, _ file: Foundation.URL?) -> ()
+public typealias UploadCompletionBlock = (CPUtilities.CPError?, CPMessagingModule.CPFilePart?) -> ()
+public typealias DownloadCompletionBlock = (CPUtilities.CPError?, Foundation.URL?) -> ()
 @_hasMissingDesignatedInitializers @objc public class CPActivityHandle : ObjectiveC.NSObject {
   @objc public func cancel()
   @objc deinit
+  @objc override dynamic public init()
 }
 @_hasMissingDesignatedInitializers @objc public class CPChatService : CPMessagingModule.MessageService, CPUtilities.CPServiceProtocol {
   @objc public var delegate: CPMessagingModule.CPChatDelegate?
@@ -223,6 +227,7 @@ public typealias DownloadCompletionBlock = (_ error: CPUtilities.CPError?, _ fil
     get
   }
   @objc public init(withText: Swift.String)
+  @objc override dynamic public init()
   @objc deinit
 }
 @_hasMissingDesignatedInitializers @objc public class CPThumbnailPart : ObjectiveC.NSObject {
@@ -232,6 +237,7 @@ public typealias DownloadCompletionBlock = (_ error: CPUtilities.CPError?, _ fil
   @objc public var link: Swift.String {
     get
   }
+  @objc override dynamic public init()
   @objc deinit
 }
 @objc public class CPFilePart : CPMessagingModule.CPMessagePart {
@@ -254,6 +260,7 @@ public typealias DownloadCompletionBlock = (_ error: CPUtilities.CPError?, _ fil
     get
   }
   @objc public init(name: Swift.String, link: Swift.String, size: Swift.Int)
+  @objc override dynamic public init()
   @objc deinit
 }
 @_hasMissingDesignatedInitializers @objc public class CPMessageStatus : ObjectiveC.NSObject {
@@ -266,6 +273,7 @@ public typealias DownloadCompletionBlock = (_ error: CPUtilities.CPError?, _ fil
     get
   }
   @objc final public let sender: Swift.String
+  @objc override dynamic public init()
   @objc deinit
 }
 @_hasMissingDesignatedInitializers @objc public class CPMessage : CPMessagingModule.FetchedObjects {
@@ -307,6 +315,7 @@ public typealias DownloadCompletionBlock = (_ error: CPUtilities.CPError?, _ fil
     @objc get
   }
   @objc public func addPart(file: CPMessagingModule.CPFilePart)
+  @objc override dynamic public init()
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class CPInboundMessage : CPMessagingModule.CPMessage {
@@ -330,9 +339,9 @@ public typealias DownloadCompletionBlock = (_ error: CPUtilities.CPError?, _ fil
   @objc func deliveryStatusChanged(status: CPMessagingModule.CPMessageStatus)
   @objc func outboundMessageSent(message: CPMessagingModule.CPOutboundMessage)
 }
-public typealias FetchMessagesBlock = (_ error: CPUtilities.CPError?, _ messages: [CPMessagingModule.CPMessage]) -> ()
-public typealias FetchMessageBlock = (_ error: CPUtilities.CPError?, _ message: CPMessagingModule.CPMessage?) -> ()
-public typealias SendCompletionBlock = (_ error: CPUtilities.CPError?, _ outboundMessage: CPMessagingModule.CPOutboundMessage?) -> ()
+public typealias FetchMessagesBlock = (CPUtilities.CPError?, [CPMessagingModule.CPMessage]) -> ()
+public typealias FetchMessageBlock = (CPUtilities.CPError?, CPMessagingModule.CPMessage?) -> ()
+public typealias SendCompletionBlock = (CPUtilities.CPError?, CPMessagingModule.CPOutboundMessage?) -> ()
 @_hasMissingDesignatedInitializers @objc public class CPConversation : CPMessagingModule.FetchedObjects {
   @objc public var fromAddress: Swift.String {
     get
@@ -373,6 +382,7 @@ public typealias SendCompletionBlock = (_ error: CPUtilities.CPError?, _ outboun
   @objc override dynamic public var description: Swift.String {
     @objc get
   }
+  @objc override dynamic public init()
   @objc deinit
 }
 extension CPMessagingModule.CPChatParticipantStatus : Swift.Equatable {}
